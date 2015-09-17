@@ -58,7 +58,7 @@ class ChangeOwnPasswordForm extends Model
 	 */
 	public function validateCurrentPassword()
 	{
-		if ( !Yii::$app->getModule('user-management')->checkAttempts() )
+		if ( !Yii::$app->getModule(Yii::$app->user->moduleName())->checkAttempts() )
 		{
 			$this->addError('current_password', UserManagementModule::t('back', 'Too many attempts'));
 

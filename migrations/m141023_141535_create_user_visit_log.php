@@ -13,7 +13,7 @@ class m141023_141535_create_user_visit_log extends Migration
 		}
 
 	        // Check if user_visit_log_table Table exist
-	        $table_name = \Yii::$app->getModule('user-management')->user_visit_log_table;
+	        $table_name = \Yii::$app->getModule(Yii::$app->user->moduleName())->user_visit_log_table;
 	        if (\Yii::$app->db->schema->getTableSchema($table_name) === null)
 	        {
 			// Create user_visit_log_table table
@@ -25,14 +25,14 @@ class m141023_141535_create_user_visit_log extends Migration
 				'browser_and_os' => 'string not null',
 				'user_id'        => 'int',
 				'visit_time'     => 'int not null',
-				0                => 'FOREIGN KEY (user_id) REFERENCES '.Yii::$app->getModule('user-management')->user_table.' (id) ON DELETE SET NULL ON UPDATE CASCADE',
+				0                => 'FOREIGN KEY (user_id) REFERENCES '.Yii::$app->getModule(Yii::$app->user->moduleName())->user_table.' (id) ON DELETE SET NULL ON UPDATE CASCADE',
 			), $tableOptions);
 	        }
 	}
 
 	public function safeDown()
 	{
-		$this->dropTable(Yii::$app->getModule('user-management')->user_visit_log_table);
+		$this->dropTable(Yii::$app->getModule(Yii::$app->user->moduleName())->user_visit_log_table);
 
 	}
 }

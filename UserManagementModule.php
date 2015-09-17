@@ -78,14 +78,6 @@ class UserManagementModule extends \yii\base\Module
 	public $confirmationTokenExpire = 3600; // 1 hour
 
 	/**
-	 * Registration can be enabled either by this option or by adding '/user-management/auth/registration' route
-	 * to guest permissions
-
-	 * @var bool
-	 */
-	public $enableRegistration = false;
-
-	/**
 	 * Roles that will be assigned to user registered via user-management/auth/registration
 	 *
 	 * @var array
@@ -176,6 +168,22 @@ class UserManagementModule extends \yii\base\Module
 			['label' => '<i class="fa fa-angle-double-right"></i> ' . UserManagementModule::t('back', 'Permissions'), 'url' => ['/user-management/permission/index']],
 			['label' => '<i class="fa fa-angle-double-right"></i> ' . UserManagementModule::t('back', 'Permission groups'), 'url' => ['/user-management/auth-item-group/index']],
 			['label' => '<i class="fa fa-angle-double-right"></i> ' . UserManagementModule::t('back', 'Visit log'), 'url' => ['/user-management/user-visit-log/index']],
+		];
+	}
+
+	/**
+	 * For Menu
+	 *
+	 * @return array
+	 */
+	public static function menuItems2()
+	{
+		return [
+			['label' =>  UserManagementModule::t('back', 'Users'), 'url' => ['/user-management/user/index']],
+			['label' =>  UserManagementModule::t('back', 'Roles'), 'url' => ['/user-management/role/index']],
+			['label' =>  UserManagementModule::t('back', 'Permissions'), 'url' => ['/user-management/permission/index']],
+			['label' =>  UserManagementModule::t('back', 'Permission groups'), 'url' => ['/user-management/auth-item-group/index']],
+			['label' =>  UserManagementModule::t('back', 'Visit log'), 'url' => ['/user-management/user-visit-log/index']],
 		];
 	}
 

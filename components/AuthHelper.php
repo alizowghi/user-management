@@ -29,7 +29,7 @@ class AuthHelper
 	 */
 	public static function layoutHandler($event)
 	{
-		if ( $event->action->uniqueId == 'user-management/auth/login' )
+		if ( $event->action->uniqueId == \Yii::$app->controller->module->id.'/auth/login' )
 		{
 			$event->action->controller->layout = 'loginLayout.php';
 		}

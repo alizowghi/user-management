@@ -57,7 +57,7 @@ abstract class UserIdentity extends ActiveRecord implements IdentityInterface
 	 */
 	public static function findByConfirmationToken($token)
 	{
-		$expire    = Yii::$app->getModule('user-management')->confirmationTokenExpire;
+		$expire    = Yii::$app->getModule(Yii::$app->user->moduleName())->confirmationTokenExpire;
 
 		$parts     = explode('_', $token);
 		$timestamp = (int)end($parts);
@@ -82,7 +82,7 @@ abstract class UserIdentity extends ActiveRecord implements IdentityInterface
 	 */
 	public static function findInactiveByConfirmationToken($token)
 	{
-		$expire    = Yii::$app->getModule('user-management')->confirmationTokenExpire;
+		$expire    = Yii::$app->getModule(Yii::$app->user->moduleName())->confirmationTokenExpire;
 
 		$parts     = explode('_', $token);
 		$timestamp = (int)end($parts);

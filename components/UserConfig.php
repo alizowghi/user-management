@@ -30,6 +30,15 @@ class UserConfig extends User
 	 * @inheritdoc
 	 */
 	public $loginUrl = ['/user-management/auth/login'];
+	
+	
+	public function loginUrl(){
+		return ['/'.\Yii::$app->controller->module->id.'/auth/login'];
+	}
+	
+	public function moduleName(){
+		return \Yii::$app->controller->module->id;
+	}
 
 	/**
 	 * Allows to call Yii::$app->user->isSuperadmin

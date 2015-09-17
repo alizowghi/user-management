@@ -13,7 +13,7 @@ class m140808_073114_create_auth_item_group_table extends Migration
 		}
 		
 	        // Check if auth_item_group_table Table exist
-	        $table_name = \Yii::$app->getModule('user-management')->auth_item_group_table;
+	        $table_name = \Yii::$app->getModule(Yii::$app->user->moduleName())->auth_item_group_table;
 	        if (\Yii::$app->db->schema->getTableSchema($table_name) === null)
 	        {
 			// Create auth_item_group_table table
@@ -27,8 +27,8 @@ class m140808_073114_create_auth_item_group_table extends Migration
 	
 			], $tableOptions);
 	
-			$this->addColumn(Yii::$app->getModule('user-management')->auth_item_table, 'group_code', 'varchar(64)');
-			$this->addForeignKey('fk_auth_item_group_code', Yii::$app->getModule('user-management')->auth_item_table, 'group_code', Yii::$app->getModule('user-management')->auth_item_group_table, 'code', 'SET NULL', 'CASCADE');
+			$this->addColumn(Yii::$app->getModule(Yii::$app->user->moduleName())->auth_item_table, 'group_code', 'varchar(64)');
+			$this->addForeignKey('fk_auth_item_group_code', Yii::$app->getModule(Yii::$app->user->moduleName())->auth_item_table, 'group_code', Yii::$app->getModule(Yii::$app->user->moduleName())->auth_item_group_table, 'code', 'SET NULL', 'CASCADE');
 	        }
 
 		Yii::$app->cache->flush();
@@ -37,10 +37,10 @@ class m140808_073114_create_auth_item_group_table extends Migration
 
 	public function safeDown()
 	{
-		$this->dropForeignKey('fk_auth_item_group_code', Yii::$app->getModule('user-management')->auth_item_table);
-		$this->dropColumn(Yii::$app->getModule('user-management')->auth_item_table, 'group_code');
+		$this->dropForeignKey('fk_auth_item_group_code', Yii::$app->getModule(Yii::$app->user->moduleName())->auth_item_table);
+		$this->dropColumn(Yii::$app->getModule(Yii::$app->user->moduleName())->auth_item_table, 'group_code');
 
-		$this->dropTable(Yii::$app->getModule('user-management')->auth_item_group_table);
+		$this->dropTable(Yii::$app->getModule(Yii::$app->user->moduleName())->auth_item_group_table);
 
 		Yii::$app->cache->flush();
 	}

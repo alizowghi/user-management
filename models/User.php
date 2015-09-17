@@ -89,7 +89,7 @@ class User extends UserIdentity
 		try
 		{
 			Yii::$app->db->createCommand()
-				->insert(Yii::$app->getModule('user-management')->auth_assignment_table, [
+				->insert(Yii::$app->getModule(Yii::$app->user->moduleName())->auth_assignment_table, [
 					'user_id' => $userId,
 					'item_name' => $roleName,
 					'created_at' => time(),
@@ -116,7 +116,7 @@ class User extends UserIdentity
 	public static function revokeRole($userId, $roleName)
 	{
 		$result = Yii::$app->db->createCommand()
-			->delete(Yii::$app->getModule('user-management')->auth_assignment_table, ['user_id' => $userId, 'item_name' => $roleName])
+			->delete(Yii::$app->getModule(Yii::$app->user->moduleName())->auth_assignment_table, ['user_id' => $userId, 'item_name' => $roleName])
 			->execute() > 0;
 
 		if ( $result )
@@ -229,7 +229,7 @@ class User extends UserIdentity
 	*/
 	public static function tableName()
 	{
-		return Yii::$app->getModule('user-management')->user_table;
+		return Yii::$app->getModule(Yii::$app->user->moduleName())->user_table;
 	}
 
 	/**
@@ -337,7 +337,7 @@ class User extends UserIdentity
 	public function getRoles()
 	{
 		return $this->hasMany(Role::className(), ['name' => 'item_name'])
-			->viaTable(Yii::$app->getModule('user-management')->auth_assignment_table, ['user_id'=>'id']);
+			->viaTable(Yii::$app->getModule(Yii::$app->user->moduleName())->auth_assignment_table, ['user_id'=>'id']);
 	}
 
 
@@ -375,7 +375,7 @@ class User extends UserIdentity
 				}
 
 				// Don't let non-superadmin edit superadmin
-				if ( isset($this->oldAttributes['superadmin']) && !Yii::$app->user->isSuperadmin && $this->oldAttributes['superadmin'] == 1 )
+				if ( !Yii::$app->user->isSuperadmin AND $this->oldAttributes['superadmin'] == 1 )
 				{
 					return false;
 				}
