@@ -1,5 +1,5 @@
 {
-	"name": "alizowghi/module-user-management",
+	"name": "alizowghi/yii2-user-management",
 	"description": "User with improved RBAC",
 	"autoload": {
 		"psr-4": {
