@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				[
 					'attribute'=>'description',
 					'value'=>function($model){
-							if ( $model->name == Yii::$app->getModule(Yii::$app->user->moduleName())->commonPermissionName )
+							if ( $model->name == Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->commonPermissionName )
 							{
 								return Html::a(
 									$model->description,

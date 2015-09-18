@@ -38,7 +38,7 @@ class PermissionController extends AdminDefaultController
 		$routes = Route::find()->asArray()->all();
 
 		$permissions = Permission::find()
-			->andWhere(['not in', Yii::$app->getModule(Yii::$app->user->moduleName())->auth_item_table . '.name', [Yii::$app->getModule(Yii::$app->user->moduleName())->commonPermissionName, $id]])
+			->andWhere(['not in', Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->auth_item_table . '.name', [Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->commonPermissionName, $id]])
 			->joinWith('group')
 			->all();
 
@@ -101,7 +101,7 @@ class PermissionController extends AdminDefaultController
 		Permission::addChildren($id, $toAdd);
 		Permission::removeChildren($id, $toRemove);
 
-		if ( ( $toAdd OR $toRemove ) AND ( $id == Yii::$app->getModule(Yii::$app->user->moduleName())->commonPermissionName ) )
+		if ( ( $toAdd OR $toRemove ) AND ( $id == Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->commonPermissionName ) )
 		{
 			Yii::$app->cache->delete('__commonRoutes');
 		}

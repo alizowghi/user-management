@@ -44,7 +44,7 @@ class PasswordRecoveryForm extends Model
 	 */
 	public function validateEmailConfirmedAndUserActive()
 	{
-		if ( !Yii::$app->getModule(Yii::$app->user->moduleName())->checkAttempts() )
+		if ( !Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->checkAttempts() )
 		{
 			$this->addError('email', UserManagementModule::t('front', 'Too many attempts'));
 
@@ -93,8 +93,8 @@ class PasswordRecoveryForm extends Model
 		$this->user->generateConfirmationToken();
 		$this->user->save(false);
 
-		return Yii::$app->mailer->compose(Yii::$app->getModule(Yii::$app->user->moduleName())->mailerOptions['passwordRecoveryFormViewFile'], ['user' => $this->user])
-			->setFrom(Yii::$app->getModule(Yii::$app->user->moduleName())->mailerOptions['from'])
+		return Yii::$app->mailer->compose(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->mailerOptions['passwordRecoveryFormViewFile'], ['user' => $this->user])
+			->setFrom(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->mailerOptions['from'])
 			->setTo($this->email)
 			->setSubject(UserManagementModule::t('front', 'Password reset for') . ' ' . Yii::$app->name)
 			->send();

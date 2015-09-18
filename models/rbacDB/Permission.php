@@ -53,7 +53,7 @@ class Permission extends AbstractItem
 			try
 			{
 				Yii::$app->db->createCommand()
-					->insert(Yii::$app->getModule(Yii::$app->user->moduleName())->auth_item_child_table, [
+					->insert(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->auth_item_child_table, [
 						'parent' => $permission->name,
 						'child'  => $route,
 					])->execute();

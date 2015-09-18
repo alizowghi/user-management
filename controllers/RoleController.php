@@ -40,7 +40,7 @@ class RoleController extends AdminDefaultController
 			->all();
 
 		$permissions = Permission::find()
-			->andWhere(Yii::$app->getModule(Yii::$app->user->moduleName())->auth_item_table . '.name != :commonPermissionName', [':commonPermissionName'=>Yii::$app->getModule(Yii::$app->user->moduleName())->commonPermissionName])
+			->andWhere(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->auth_item_table . '.name != :commonPermissionName', [':commonPermissionName'=>Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->commonPermissionName])
 			->joinWith('group')
 			->all();
 

@@ -1,7 +1,6 @@
 <?php
 
 namespace webvimark\modules\UserManagement;
-
 use Yii;
 use yii\helpers\ArrayHelper;
 

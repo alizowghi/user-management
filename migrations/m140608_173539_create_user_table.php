@@ -15,7 +15,7 @@ class m140608_173539_create_user_table extends Migration
 
 	        // Check if user Table exist
 	        // $tablename = \Yii::$app->db->tablePrefix.'user';
-	        $tablename = \Yii::$app->getModule(Yii::$app->user->moduleName())->user_table;
+	        $tablename = \Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->user_table;
 	        if (\Yii::$app->db->schema->getTableSchema($tablename) === null)
 	        {
 			// Create user table
@@ -37,6 +37,6 @@ class m140608_173539_create_user_table extends Migration
 
 	public function safeDown()
 	{
-		$this->dropTable(Yii::$app->getModule(Yii::$app->user->moduleName())->user_table);
+		$this->dropTable(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->user_table);
 	}
 }

@@ -37,7 +37,7 @@ class RegistrationForm extends Model
 			['repeat_password', 'compare', 'compareAttribute'=>'password'],
 		];
 
-		if ( Yii::$app->getModule(Yii::$app->user->moduleName())->useEmailAsLogin )
+		if ( Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->useEmailAsLogin )
 		{
 			$rules[] = ['username', 'email'];
 		}
@@ -45,8 +45,8 @@ class RegistrationForm extends Model
 		{
 			$rules[] = ['username', 'string', 'max' => 50];
 
-			$rules[] = ['username', 'match', 'pattern'=>Yii::$app->getModule(Yii::$app->user->moduleName())->registrationRegexp];
-			$rules[] = ['username', 'match', 'not'=>true, 'pattern'=>Yii::$app->getModule(Yii::$app->user->moduleName())->registrationBlackRegexp];
+			$rules[] = ['username', 'match', 'pattern'=>Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->registrationRegexp];
+			$rules[] = ['username', 'match', 'not'=>true, 'pattern'=>Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->registrationBlackRegexp];
 		}
 
 		return $rules;
@@ -68,7 +68,7 @@ class RegistrationForm extends Model
 	public function attributeLabels()
 	{
 		return [
-			'username'        => Yii::$app->getModule(Yii::$app->user->moduleName())->useEmailAsLogin ? 'E-mail' : UserManagementModule::t('front', 'Login'),
+			'username'        => Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->useEmailAsLogin ? 'E-mail' : UserManagementModule::t('front', 'Login'),
 			'password'        => UserManagementModule::t('front', 'Password'),
 			'repeat_password' => UserManagementModule::t('front', 'Repeat password'),
 			'captcha'         => UserManagementModule::t('front', 'Captcha'),
@@ -90,13 +90,13 @@ class RegistrationForm extends Model
 		$user = new User();
 		$user->password = $this->password;
 
-		if ( Yii::$app->getModule(Yii::$app->user->moduleName())->useEmailAsLogin )
+		if ( Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->useEmailAsLogin )
 		{
 			$user->email = $this->username;
 
 			// If email confirmation required then we save user with "inactive" status
 			// and without username (username will be filled with email value after confirmation)
-			if ( Yii::$app->getModule(Yii::$app->user->moduleName())->emailConfirmationRequired )
+			if ( Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->emailConfirmationRequired )
 			{
 				$user->status = User::STATUS_INACTIVE;
 				$user->generateConfirmationToken();
@@ -153,8 +153,8 @@ class RegistrationForm extends Model
 	 */
 	protected function sendConfirmationEmail($user)
 	{
-		return Yii::$app->mailer->compose(Yii::$app->getModule(Yii::$app->user->moduleName())->mailerOptions['registrationFormViewFile'], ['user' => $user])
-			->setFrom(Yii::$app->getModule(Yii::$app->user->moduleName())->mailerOptions['from'])
+		return Yii::$app->mailer->compose(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->mailerOptions['registrationFormViewFile'], ['user' => $user])
+			->setFrom(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->mailerOptions['from'])
 			->setTo($user->email)
 			->setSubject(UserManagementModule::t('front', 'E-mail confirmation for') . ' ' . Yii::$app->name)
 			->send();
@@ -179,7 +179,7 @@ class RegistrationForm extends Model
 			$user->removeConfirmationToken();
 			$user->save(false);
 
-			$roles = (array)Yii::$app->getModule(Yii::$app->user->moduleName())->rolesAfterRegistration;
+			$roles = (array)Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->rolesAfterRegistration;
 
 			foreach ($roles as $role)
 			{

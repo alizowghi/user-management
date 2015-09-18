@@ -6,18 +6,18 @@ class m141121_194858_split_browser_and_os_column extends Migration
 {
 	public function safeUp()
 	{
-		$this->addColumn(Yii::$app->getModule(Yii::$app->user->moduleName())->user_visit_log_table, 'browser', 'varchar(30)');
-		$this->addColumn(Yii::$app->getModule(Yii::$app->user->moduleName())->user_visit_log_table, 'os', 'varchar(20)');
-		$this->renameColumn(Yii::$app->getModule(Yii::$app->user->moduleName())->user_visit_log_table, 'browser_and_os', 'user_agent');
+		$this->addColumn(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->user_visit_log_table, 'browser', 'varchar(30)');
+		$this->addColumn(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->user_visit_log_table, 'os', 'varchar(20)');
+		$this->renameColumn(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->user_visit_log_table, 'browser_and_os', 'user_agent');
 		Yii::$app->cache->flush();
 
 	}
 
 	public function safeDown()
 	{
-		$this->dropColumn(Yii::$app->getModule(Yii::$app->user->moduleName())->user_visit_log_table, 'os');
-		$this->dropColumn(Yii::$app->getModule(Yii::$app->user->moduleName())->user_visit_log_table, 'browser');
-		$this->renameColumn(Yii::$app->getModule(Yii::$app->user->moduleName())->user_visit_log_table, 'user_agent', 'browser_and_os');
+		$this->dropColumn(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->user_visit_log_table, 'os');
+		$this->dropColumn(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->user_visit_log_table, 'browser');
+		$this->renameColumn(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->user_visit_log_table, 'user_agent', 'browser_and_os');
 
 		Yii::$app->cache->flush();
 	}

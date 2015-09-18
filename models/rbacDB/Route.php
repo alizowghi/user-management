@@ -29,8 +29,8 @@ class Route extends AbstractItem
 			return [];
 		}
 
-		$auth_item = Yii::$app->getModule(Yii::$app->user->moduleName())->auth_item_table;
-		$auth_item_child = Yii::$app->getModule(Yii::$app->user->moduleName())->auth_item_child_table;
+		$auth_item = Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->auth_item_table;
+		$auth_item_child = Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->auth_item_child_table;
 
 		$routes = (new Query)
 			->select(['name'])
@@ -195,7 +195,7 @@ class Route extends AbstractItem
 		}
 
 		$systemPages = [
-			'/'.Yii::$app->user->moduleName().'/auth/logout',
+			'/'.\Yii::$app->user->moduleAliasName.'/auth/logout',
 			AuthHelper::unifyRoute(Yii::$app->errorHandler->errorAction),
 			AuthHelper::unifyRoute(Yii::$app->user->loginUrl()),
 		];
@@ -228,8 +228,8 @@ class Route extends AbstractItem
 		{
 			$commonRoutesDB = (new Query())
 				->select('child')
-				->from(Yii::$app->getModule(Yii::$app->user->moduleName())->auth_item_child_table)
-				->where(['parent'=>Yii::$app->getModule(Yii::$app->user->moduleName())->commonPermissionName])
+				->from(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->auth_item_child_table)
+				->where(['parent'=>Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->commonPermissionName])
 				->column();
 
 			$commonRoutes = Route::withSubRoutes($commonRoutesDB, ArrayHelper::map(Route::find()->asArray()->all(), 'name', 'name'));

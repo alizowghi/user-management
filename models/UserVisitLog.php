@@ -78,7 +78,7 @@ class UserVisitLog extends \webvimark\components\BaseActiveRecord
 	*/
 	public static function tableName()
 	{
-		return Yii::$app->getModule(Yii::$app->user->moduleName())->user_visit_log_table;
+		return Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->user_visit_log_table;
 	}
 
 	/**
