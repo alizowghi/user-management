@@ -114,15 +114,19 @@ class Route extends AbstractItem
 		$currentRoutes = ArrayHelper::map(Route::find()->asArray()->all(), 'name', 'name');
 
 		$toAdd = array_diff(array_keys($allRoutes), array_keys($currentRoutes));
-		$toRemove = array_diff(array_keys($currentRoutes), array_keys($allRoutes));
-
+		if(\Yii::$app->user->removeRoutesAutomatically){
+			$toRemove = array_diff(array_keys($currentRoutes), array_keys($allRoutes));
+		}else{
+			$toRemove = '';
+		}
 
 		foreach ($toAdd as $addItem)
 		{
 			Route::create($addItem);
 		}
 
-		if ( $toRemove )
+		
+		if ( $toRemove && \Yii::$app->user->removeRoutesAutomatically)
 		{
 			Route::deleteAll(['in', 'name', $toRemove]);
 		}
@@ -182,18 +186,19 @@ class Route extends AbstractItem
 		if ( $action )
 		{
 			$controller = $action->controller;
-
+			
+			
 			if ( $controller->hasProperty('freeAccess') AND $controller->freeAccess === true )
 			{
 				return true;
 			}
 
 			if ( $controller->hasProperty('freeAccessActions') AND in_array($action->id, $controller->freeAccessActions) )
-			{
+			{ 
 				return true;
 			}
 		}
-
+ 
 		$systemPages = [
 			'/'.\Yii::$app->user->moduleAliasName.'/auth/logout',
 			AuthHelper::unifyRoute(Yii::$app->errorHandler->errorAction),
@@ -204,9 +209,8 @@ class Route extends AbstractItem
 		{
 			return true;
 		}
-
-		if ( static::isInCommonPermission($route) )
-		{
+		if ( static::isInCommonPermission($route) && \Yii::$app->user->id)
+		{  
 			return true;
 		}
 
@@ -222,10 +226,9 @@ class Route extends AbstractItem
 	 */
 	protected static function isInCommonPermission($currentFullRoute)
 	{
-		$commonRoutes = Yii::$app->cache->get('__commonRoutes');
-
-		if ( $commonRoutes === false )
-		{
+		$commonRoutes = (Yii::$app->cache->get('__commonRoutes')) ? Yii::$app->cache->get('__commonRoutes') : '';
+		if ( !$commonRoutes )
+		{ 
 			$commonRoutesDB = (new Query())
 				->select('child')
 				->from(Yii::$app->getModule(\Yii::$app->user->moduleAliasName)->auth_item_child_table)

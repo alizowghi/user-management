@@ -186,7 +186,6 @@ class User extends UserIdentity
 		}
 
 		$baseRoute = AuthHelper::unifyRoute($route);
-
 		if ( Route::isFreeAccess($baseRoute) )
 		{
 			return true;

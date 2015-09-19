@@ -32,6 +32,7 @@ class UserConfig extends User
 	public $loginUrl = ['/user-management/auth/login'];
 	
 	public $moduleAliasName;
+	public $removeRoutesAutomatically;
 	
 	public function loginUrl(){
 		return ['/'.$this->moduleAliasName.'/auth/login'];
